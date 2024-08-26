@@ -4,9 +4,12 @@ from typing import Dict, List, Union
 import pyautogui as ag
 import keyboard
 
+from overlay.logging_func import get_logger
+
+logger = get_logger(__name__)
 class ProductionTab(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent):
+        super().__init__(parent)
         self.setWindowTitle("Production Tab")
         self.setGeometry(100, 100, 800, 600)
 
@@ -175,7 +178,7 @@ class ProductionTab(QtWidgets.QWidget):
         return grouped_shortcuts
 
 # Example usage
-app = QtWidgets.QApplication([])
-window = ProductionTab()
-window.show()
-app.exec_()
+# app = QtWidgets.QApplication([])
+# window = ProductionTab()
+# window.show()
+# app.exec_()
