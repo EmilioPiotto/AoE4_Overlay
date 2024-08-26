@@ -28,6 +28,9 @@ class ProductionTab(QtWidgets.QWidget):
         self.units = self.load_from_json(json_data_path, 'units')
         self.buildings = self.load_from_json(json_data_path, 'buildings')
 
+        # Create a mapping of buildings to their hotkeys
+        self.building_hotkeys = {b['name']: b['hotkey'] for b in self.buildings}
+
         # Add units to the Units section
         self.unit_buttons = {}
         for i, unit in enumerate(self.units):
@@ -145,10 +148,16 @@ class ProductionTab(QtWidgets.QWidget):
         self.automation_active = checked
 
     def print_shortcuts(self):
-        shortcuts = []
+        grouped_shortcuts = {}
         for item in self.production_items.values():
-            shortcuts.extend([item['data']['hotkey']] * item['count'])
-        print("Current shortcuts in production:", shortcuts)
+            building = item['data'].get('build_location', 'Unknown')
+            if building not in grouped_shortcuts:
+                grouped_shortcuts[building] = []
+            shortcuts = [item['data']['hotkey']] * item['count']
+            grouped_shortcuts[building].extend(shortcuts)
+        print("Grouped shortcuts by building:")
+        for building, shortcuts in grouped_shortcuts.items():
+            print(f"{building}: {shortcuts}")
 
     def keyPressEvent(self, event: QtGui.QKeyEvent):
         if self.automation_active and event.key() == QtCore.Qt.Key_O:
