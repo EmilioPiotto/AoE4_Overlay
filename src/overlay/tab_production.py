@@ -1,10 +1,15 @@
 import json
 from PyQt5 import QtWidgets, QtGui, QtCore
 from typing import Dict, List, Union
+import pyautogui as ag
+import keyboard
 
+from overlay.logging_func import get_logger
+
+logger = get_logger(__name__)
 class ProductionTab(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent):
+        super().__init__(parent)
         self.setWindowTitle("Production Tab")
         self.setGeometry(100, 100, 800, 600)
 
@@ -27,6 +32,9 @@ class ProductionTab(QtWidgets.QWidget):
         json_data_path = "AoE4_Overlay/src/data/units.json"
         self.units = self.load_from_json(json_data_path, 'units')
         self.buildings = self.load_from_json(json_data_path, 'buildings')
+
+        # Create a mapping of buildings to their hotkeys
+        self.building_hotkeys = {b['name']: b['hotkey'] for b in self.buildings}
 
         # Add units to the Units section
         self.unit_buttons = {}
@@ -82,6 +90,9 @@ class ProductionTab(QtWidgets.QWidget):
 
         # Flag to check if automation is active
         self.automation_active = False
+
+        # Start listening for the global 'O' key press
+        keyboard.add_hotkey('o', self.global_key_pressed)
 
     def load_from_json(self, file_path: str, key: str) -> List[Dict[str, Union[str, Dict[str, float]]]]:
         with open(file_path, 'r') as file:
@@ -144,18 +155,30 @@ class ProductionTab(QtWidgets.QWidget):
     def toggle_automation(self, checked: bool):
         self.automation_active = checked
 
-    def print_shortcuts(self):
-        shortcuts = []
-        for item in self.production_items.values():
-            shortcuts.extend([item['data']['hotkey']] * item['count'])
-        print("Current shortcuts in production:", shortcuts)
+    def global_key_pressed(self):
+        if self.automation_active:
+            grouped_shortcuts = self.group_by_building()
+            print("Grouped shortcuts by building:")
+            for building, shortcuts in grouped_shortcuts.items():
+                print(f"{building}: {shortcuts}")
+                b_hkey = self.building_hotkeys.get(building, None)
+                if b_hkey:
+                    ag.press(b_hkey)  # Press the building hotkey first
+                    for sc in shortcuts:
+                        ag.press(sc)  # Press each unit hotkey
 
-    def keyPressEvent(self, event: QtGui.QKeyEvent):
-        if self.automation_active and event.key() == QtCore.Qt.Key_O:
-            self.print_shortcuts()
+    def group_by_building(self) -> Dict[str, List[str]]:
+        grouped_shortcuts = {}
+        for item in self.production_items.values():
+            building = item['data'].get('build_location', 'Unknown')
+            if building not in grouped_shortcuts:
+                grouped_shortcuts[building] = []
+            shortcuts = [item['data']['hotkey']] * item['count']
+            grouped_shortcuts[building].extend(shortcuts)
+        return grouped_shortcuts
 
 # Example usage
-app = QtWidgets.QApplication([])
-window = ProductionTab()
-window.show()
-app.exec_()
+# app = QtWidgets.QApplication([])
+# window = ProductionTab()
+# window.show()
+# app.exec_()
