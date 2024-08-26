@@ -1,6 +1,8 @@
 import json
 from PyQt5 import QtWidgets, QtGui, QtCore
 from typing import Dict, List, Union
+import pyautogui as ag
+import keyboard
 
 class ProductionTab(QtWidgets.QWidget):
     def __init__(self):
@@ -86,6 +88,9 @@ class ProductionTab(QtWidgets.QWidget):
         # Flag to check if automation is active
         self.automation_active = False
 
+        # Start listening for the global 'O' key press
+        keyboard.add_hotkey('o', self.global_key_pressed)
+
     def load_from_json(self, file_path: str, key: str) -> List[Dict[str, Union[str, Dict[str, float]]]]:
         with open(file_path, 'r') as file:
             data = json.load(file)
@@ -147,7 +152,19 @@ class ProductionTab(QtWidgets.QWidget):
     def toggle_automation(self, checked: bool):
         self.automation_active = checked
 
-    def print_shortcuts(self):
+    def global_key_pressed(self):
+        if self.automation_active:
+            grouped_shortcuts = self.group_by_building()
+            print("Grouped shortcuts by building:")
+            for building, shortcuts in grouped_shortcuts.items():
+                print(f"{building}: {shortcuts}")
+                b_hkey = self.building_hotkeys.get(building, None)
+                if b_hkey:
+                    ag.press(b_hkey)  # Press the building hotkey first
+                    for sc in shortcuts:
+                        ag.press(sc)  # Press each unit hotkey
+
+    def group_by_building(self) -> Dict[str, List[str]]:
         grouped_shortcuts = {}
         for item in self.production_items.values():
             building = item['data'].get('build_location', 'Unknown')
@@ -155,13 +172,7 @@ class ProductionTab(QtWidgets.QWidget):
                 grouped_shortcuts[building] = []
             shortcuts = [item['data']['hotkey']] * item['count']
             grouped_shortcuts[building].extend(shortcuts)
-        print("Grouped shortcuts by building:")
-        for building, shortcuts in grouped_shortcuts.items():
-            print(f"{building}: {shortcuts}")
-
-    def keyPressEvent(self, event: QtGui.QKeyEvent):
-        if self.automation_active and event.key() == QtCore.Qt.Key_O:
-            self.print_shortcuts()
+        return grouped_shortcuts
 
 # Example usage
 app = QtWidgets.QApplication([])

@@ -37,7 +37,7 @@
             },
             "build_location": "stable",
             "icon_path": "src/img/build_order/unit_mongols/keshik-2.png",
-            "hotkey": "A"
+            "hotkey": "K"
         }
     ],
     "buildings": [
@@ -49,10 +49,22 @@
             "hotkey": "H"
         },
         {
+            "name": "barracks",
+            "civilization": "Global",
+            "icon_path": "src/img/build_order/building_military/barracks.png",
+            "hotkey": "3"
+        },
+        {
             "name": "archery range",
             "civilization": "Global",
             "icon_path": "src/img/build_order/building_military/archery-range.png",
-            "hotkey": "A"
+            "hotkey": "4"
+        },
+        {
+            "name": "stable",
+            "civilization": "Global",
+            "icon_path": "src/img/build_order/building_military/stable.png",
+            "hotkey": "4"
         }
     ]
 }
