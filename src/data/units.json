@@ -11,7 +11,46 @@
             },
             "build_location": "town center",
             "icon_path": "src/img/build_order/unit_worker/villager.png",
-            "hotkey": "V"
+            "hotkey": "q"
+        },
+        {
+            "name": "trader",
+            "civilization": "Global",
+            "cost": {
+                "food": 0,
+                "wood": 3.87,
+                "gold": 3.24,
+                "stone": 0
+            },
+            "build_location": "market",
+            "icon_path": "src/img/build_order/unit_worker/trader.png",
+            "hotkey": ""
+        },
+        {
+            "name": "spearman",
+            "civilization": "Global",
+            "cost": {
+                "food": 6.48,
+                "wood": 2.58,
+                "gold": 0,
+                "stone": 0
+            },
+            "build_location": "barracks",
+            "icon_path": "src/img/build_order/unit_infantry/spearman-1.png",
+            "hotkey": "q"
+        },
+        {
+            "name": "man-at-arms",
+            "civilization": "Global",
+            "cost": {
+                "food": 7.20,
+                "wood": 0,
+                "gold": 1.44,
+                "stone": 0
+            },
+            "build_location": "barracks",
+            "icon_path": "src/img/build_order/unit_infantry/man-at-arms-1.png",
+            "hotkey": "w"
         },
         {
             "name": "archer",
@@ -24,11 +63,63 @@
             },
             "build_location": "archery range",
             "icon_path": "src/img/build_order/unit_infantry/archer-2.png",
-            "hotkey": "A"
+            "hotkey": "q"
+        },
+        {
+            "name": "crossbowman",
+            "civilization": "Global",
+            "cost": {
+                "food": 5.76,
+                "wood": 0,
+                "gold": 2.88,
+                "stone": 0
+            },
+            "build_location": "archery range",
+            "icon_path": "src/img/build_order/unit_infantry/crossbowman-3.png",
+            "hotkey": "w"
+        },
+        {
+            "name": "handcannoneer",
+            "civilization": "Global",
+            "cost": {
+                "food": 5.55,
+                "wood": 0,
+                "gold": 5.55,
+                "stone": 0
+            },
+            "build_location": "archery range",
+            "icon_path": "src/img/build_order/unit_infantry/handcannoneer-4.png",
+            "hotkey": "e"
+        },
+        {
+            "name": "mangudai",
+            "civilization": "Global",
+            "cost": {
+                "food": 5.21,
+                "wood": 0,
+                "gold": 3.47,
+                "stone": 0
+            },
+            "build_location": "archery range",
+            "icon_path": "src/img/build_order/unit_infantry/mangudai.png",
+            "hotkey": "r"
+        },
+        {
+            "name": "horseman",
+            "civilization": "Global",
+            "cost": {
+                "food": 7.20,
+                "wood": 1.72,
+                "gold": 0,
+                "stone": 0
+            },
+            "build_location": "stable",
+            "icon_path": "src/img/build_order/unit_cavalry/horseman-1.png",
+            "hotkey": "q"
         },
         {
             "name": "keshik",
-            "civilization": "Global",
+            "civilization": "monogls",
             "cost": {
                 "food": 6.48,
                 "wood": 0,
@@ -37,7 +128,7 @@
             },
             "build_location": "stable",
             "icon_path": "src/img/build_order/unit_mongols/keshik-2.png",
-            "hotkey": "K"
+            "hotkey": "w"
         }
     ],
     "buildings": [
@@ -49,22 +140,28 @@
             "hotkey": "H"
         },
         {
+            "name": "market",
+            "civilization": "Global",
+            "icon_path": "src/img/build_order/building_economy/market.png",
+            "hotkey": "xxxxx"
+        },
+        {
             "name": "barracks",
             "civilization": "Global",
             "icon_path": "src/img/build_order/building_military/barracks.png",
-            "hotkey": "3"
+            "hotkey": "f5"
         },
         {
             "name": "archery range",
             "civilization": "Global",
             "icon_path": "src/img/build_order/building_military/archery-range.png",
-            "hotkey": "4"
+            "hotkey": "f6"
         },
         {
             "name": "stable",
             "civilization": "Global",
             "icon_path": "src/img/build_order/building_military/stable.png",
-            "hotkey": "4"
+            "hotkey": "f7"
         }
     ]
 }
